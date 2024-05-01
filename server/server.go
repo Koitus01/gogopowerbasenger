@@ -15,21 +15,22 @@ func main() {
 	for {
 		conn, err := ln.Accept()
 		if err != nil {
-			log.Fatal(err)
-			// handle error
+			continue
 		}
-
 		go handleConnection(conn)
 	}
 }
 
 func handleConnection(conn net.Conn) {
-	readBytes := make([]byte, 1024)
-	_, err := conn.Read(readBytes)
-	if err != nil {
-		log.Fatal(err)
-	}
+	defer conn.Close()
+	buf := make([]byte, 1024) // буфер для чтения клиентских данных
+	for {
+		_, err := conn.Read(buf) // читаем из сокета
+		if err != nil {
+			fmt.Println("Read error:", err)
+			break
+		}
 
-	peps := string(readBytes)
-	fmt.Print(string(readBytes))
+		conn.Write([]byte(fmt.Sprintln("You send:", string(buf)))) // пишем в сокет
+	}
 }
