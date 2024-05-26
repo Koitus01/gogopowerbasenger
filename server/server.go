@@ -23,14 +23,14 @@ func main() {
 
 func handleConnection(conn net.Conn) {
 	defer conn.Close()
-	buf := make([]byte, 1024) // буфер для чтения клиентских данных
 	for {
-		_, err := conn.Read(buf) // читаем из сокета
+		buf := make([]byte, 1024) // буфер для чтения клиентских данных
+		_, err := conn.Read(buf)  // читаем из сокета
 		if err != nil {
 			fmt.Println("Read error:", err)
 			break
 		}
-
+		// TODO: process query sent from connection
 		conn.Write([]byte(fmt.Sprintln("You send:", string(buf)))) // пишем в сокет
 	}
 }
