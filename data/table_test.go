@@ -1,8 +1,12 @@
 package data
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestCreateTable(t *testing.T) {
+	assert := assert.New(t)
 	columns := []Column{
 		{
 			name:         "jij",
@@ -17,6 +21,12 @@ func TestCreateTable(t *testing.T) {
 			defaultValue: nil,
 		},
 	}
+	var indexes []Index
 
-	t.Log(columns)
+	cock, _ := Create("pipi", "pupu", columns, indexes)
+
+	assert.Equal("pipi", cock.dataBaseName)
+	assert.Equal("pupu", cock.tableName)
+	assert.Len(cock.columns, len(columns))
+	assert.Len(cock.indexes, len(indexes))
 }

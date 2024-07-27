@@ -18,12 +18,24 @@ type ForeignKey struct {
 }
 
 type Table struct {
-	columns     []Column
-	indexes     []Index
-	foreignKeys []ForeignKey
+	dataBaseName string
+	tableName    string
+	columns      []Column
+	indexes      []Index
+	foreignKeys  []ForeignKey
+}
+
+type Index struct {
+	name    string
+	columns []Column
 }
 
 func Create(databaseName string, tableName string, columns []Column, indexes []Index) (table Table, err error) {
 
-	return
+	return Table{
+		dataBaseName: databaseName,
+		tableName:    tableName,
+		columns:      columns,
+		indexes:      indexes,
+	}, nil
 }
